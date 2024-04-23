@@ -1,0 +1,36 @@
+<center>
+   <h1>Welcome to FSToy Store</h1>
+   <div class="slideshow-container">
+      <div class="mySlides fade">
+         <img class="img" width="500x" src="https://t4.ftcdn.net/jpg/04/01/09/91/360_F_401099113_uRL80LigMx8SXbRddrdk8B5CHhungw9Q.jpg" alt="background">
+      </div>
+      <div class="mySlides fade">
+         <img class="img" width="500px" src="https://t3.ftcdn.net/jpg/04/05/75/18/360_F_405751881_BKMDPsTZ1y5EC4CTO36wG8unrHN5nKlp.jpg" alt="background">
+      </div>
+      <div class="mySlides fade">
+         <img class="img" width="500px" src="https://st2.depositphotos.com/16122460/44218/i/450/depositphotos_442187388-stock-photo-different-toys-wooden-background-flat.jpg" alt="background">
+      </div>
+   </div>
+   <script>
+      let slideIndex = 0;
+
+      const showSlides = () => {
+         const slides = document.getElementsByClassName("mySlides");
+         const dots = document.getElementsByClassName("dot");
+
+         for(let i = 0; i < slides.length; i++){
+            slides[i].style.display = "none";
+         }
+         slideIndex++;
+
+         if(slideIndex > slides.length){
+            slideIndex = 1;
+         }
+         slides[slideIndex - 1].style.display = "block";
+
+         setTimeout( showSlides, 1500 );
+      };
+      showSlides();
+   </script>
+</center>
+   

@@ -1,0 +1,15 @@
+<form action="/toy/edit/{{toy._productId}}" method="post">
+   <h1>Edit product</h1>
+   <label for="">Production date</label><br>
+   <input type="number" name="addDate" min="2000" max="2005"
+   value="{{ toy.addDate }}"><br><br>
+   <label for="">Product Quantity</label><br>
+   <input type="text" name="quantity"
+   value="{{ toy.quantity }}"
+   ><br><br>
+   <label for="">Toy Image</label><br>
+   <input type="url" name="image"
+   value="{{ toy.image }}"
+   ><br><br>
+   <input type="submit" value="Edit">
+</form>

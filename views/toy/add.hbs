@@ -1,0 +1,27 @@
+<div class="container text-center col-md-6">
+  <form action="/toy/add" method="post">
+    <h1 class="text text-primary text-uppercase">Create new toy</h1>
+    <div>
+      <label for="">Toy ID</label><br>
+      <input class="form-control" type="text" name="productId"><br><br>
+    </div>
+    <label for="">Toy Name</label><br>
+    <input class="form-control"type="text" name="productName"><br><br>
+    <label for="">Production Date</label><br>
+    <input class="form-control" type="number" name="addDate" min="2000" max="2005"><br><br>
+    <br><br>
+    <label for="">Toy Quantity</label><br>
+    <input class="form-control" type="number" name="quantity"><br><br>
+    <label for="">Toy Image</label><br>
+    <input class="form-control" type="url" name="image"><br><br>
+    <br><br>
+    <label for="">Category Name</label><br>
+    <select name="category" id="">
+      {{#each categories }}
+      <option value="{{ _id }}">{{ name }}</option>
+      {{/each}}
+    </select>
+    <br><br>
+    <input type="submit" value="Add">
+  </form>
+</div>
