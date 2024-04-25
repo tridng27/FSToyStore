@@ -1,0 +1,10 @@
+<div class="container text-center col-md-6">
+   <form action="/category/edit/{{ category._id }}" method="post">
+      <h1>Edit product</h1>
+      <div class="form-group">
+         <label for="name">Product Quantity</label><br>
+         <input class="form-control" type="text" id="name" name="name" value="{{ category.name }}">
+      </div>
+      <button class="btn btn-primary" type="submit">Edit</button>
+   </form>
+</div>

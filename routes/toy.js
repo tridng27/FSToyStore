@@ -1,97 +1,147 @@
-var express = require('express');
+const express = require('express');
 const ToyModel = require('../models/ToyModel');
 const CategoryModel = require('../models/CategoryModel');
-var router = express.Router();
+const router = express.Router();
 
-//READ feature
-//Importance: Must use "async" + await" keywords
+// READ feature
 router.get('/', async (req, res) => {
-   //SQL: SELECT * FROM students
-   var toyList = await ToyModel.find({}).populate('category');
-   console.log(toyList);
-   //console.log(studentList);
-   res.render('toy/index', { toyList });
+   try {
+      const toyList = await ToyModel.find({}).populate('category');
+      res.render('toy/index', { toyList });
+   } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+   }
 });
 
-//DELETE feature
+// DELETE feature
 router.get('/delete/:id', async (req, res) => {
-   //get id from url
-   let productId = req.params.id;
-   //delete document in collection by id
-   //SQL: DELETE FROM students WHERE id = "id"
-   await ToyModel.findByIdAndDelete(productId);
-   //console.log("Delete student succeed !");
-   //redirect to student list page
-   res.redirect('/toy');
-})
+   try {
+      const productId = req.params.id;
+      await ToyModel.findByIdAndDelete(productId);
+      res.redirect('/toy');
+   } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+   }
+});
 
 router.get('/deleteall', async (req, res) => {
-   //SQL: DELETE FROM students
-   //SQL: TRUNCATE TABLE students
-   await ToyModel.deleteMany();
-   res.redirect('/toy');
-})
+   try {
+      await ToyModel.deleteMany();
+      res.redirect('/toy');
+   } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+   }
+});
 
-//step 1: render "Add student" form for user to input data
+// Render "Add toy" form
 router.get('/add', async (req, res) => {
-   var categories = await CategoryModel.find({});
-   res.render('toy/add', { categories });
-})
+   try {
+      const categories = await CategoryModel.find({});
+      res.render('toy/add', { categories });
+   } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+   }
+});
 
-//step 2: get input data from form and add data to database
+// Add toy to the database
 router.post('/add', async (req, res) => {
-   //get input data from form
-   var toy = req.body;
-   console.log(toy);
-   //add data to database
-   await ToyModel.create(toy);
-   //redirect to student homepage
-   res.redirect('/toy');
-})
+   try {
+      const toy = req.body;
+      await ToyModel.create(toy);
+      res.redirect('/toy');
+   } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+   }
+});
 
+// Render "Edit toy" form
 router.get('/edit/:id', async (req, res) => {
-   var productId = req.params.id;
-   var toy = await ToyModel.findById(id);
-   res.render('toy/edit', { toy });
-})
+   try {
+      const productId = req.params.id;
+      const toy = await ToyModel.findById(productId);
+      const categories = await CategoryModel.find({});
+      res.render('toy/edit', { toy, categories });
+   } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+   }
+});
 
+// Update toy in the database
 router.post('/edit/:id', async (req, res) => {
-   var productId = req.params.id;
-   var toy = req.body;
-   await ToyModel.findByIdAndUpdate(productId,toy);
-   res.redirect('/toy');
-})
+   try {
+      const productId = req.params.id;
+      const updatedToy = req.body;
+      let toy;
+      toy = await ToyModel.findByIdAndUpdate(productId, updatedToy);
+      console.log(toy);
+      res.redirect('/toy');
+   } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+   }
+});
 
-//show student detail
+// Show toy detail
 router.get('/detail/:id', async (req, res) => {
-   let productId = req.params.id;
-   var toy = await ToyModel.findById(productId);
-   res.render('toy/detail', { toy });
-})
+   try {
+      const productId = req.params.id;
+      const toy = await ToyModel.findById(productId);
+      res.render('toy/detail', { toy });
+   } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+   }
+});
 
-//show student list (customer layout)(
+// Show toy list (customer layout)
 router.get('/list', async (req, res) => {
-   var toys = await ToyModel.find({});
-   res.render('toy/list', { toys });
-})
+   try {
+      const toys = await ToyModel.find({});
+      res.render('toy/list', { toys });
+   } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+   }
+});
 
-//search by student name
+// Search by toy name
 router.post('/search', async (req, res) => {
-   let keyword = req.body.keyword;
-   let toys = await ToyModel.find({ name: new RegExp(keyword, "i") });
-   res.render('toy/index', { toyList : toys });
-})
+   try {
+      const keyword = req.body.keyword;
+      const toys = await ToyModel.find({ name: new RegExp(keyword, "i") });
+      res.render('toy/index', { toyList: toys });
+   } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+   }
+});
 
-//sort by student id ascending
-router.get('/sortid/asc', async (req, res) => {
-   let toyList = await ToyModel.find().sort({ name: 1 });
-   res.render('toy/index', { toyList });
-})
+// Sort by toy id ascending
+router.get('/sortid/ascending', async (req, res) => {
+   try {
+      const toyList = await ToyModel.find().sort({ productId: 1 });
+      res.render('toy/index', { toyList });
+   } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+   }
+});
 
-//sort by student id descending
-router.get('/sortid/asc', async (req, res) => {
-   let toyList = await ToyModel.find().sort({ name: -1 });
-   res.render('toy/index', { toyList });
-})
+// Sort by toy id descending
+router.get('/sortid/descending', async (req, res) => {
+   try {
+      const toyList = await ToyModel.find().sort({ productId: -1 });
+      res.render('toy/index', { toyList });
+   } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+   }
+});
 
 module.exports = router;

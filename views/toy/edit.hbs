@@ -1,15 +1,26 @@
-<form action="/toy/edit/{{toy._productId}}" method="post">
-   <h1>Edit product</h1>
-   <label for="">Production date</label><br>
-   <input type="number" name="addDate" min="2000" max="2005"
-   value="{{ toy.addDate }}"><br><br>
-   <label for="">Product Quantity</label><br>
-   <input type="text" name="quantity"
-   value="{{ toy.quantity }}"
-   ><br><br>
-   <label for="">Toy Image</label><br>
-   <input type="url" name="image"
-   value="{{ toy.image }}"
-   ><br><br>
-   <input type="submit" value="Edit">
-</form>
+<div class="container text-center col-md-6">
+   <form action="/toy/edit/{{ toy._id }}" method="post">
+      <h1>Edit product</h1>
+      <div class="form-group">
+         <label for="addDate">Production date</label><br>
+         <input type="date" name="addDate" id="addDate">
+      </div>
+      <div class="form-group">
+         <label for="quantity">Product Quantity</label><br>
+         <input class="form-control" type="text" id="quantity" name="quantity" value="{{ toy.quantity }}">
+      </div>
+      <div class="form-group">
+         <label for="image">Toy Image</label><br>
+         <input class="form-control" type="url" id="image" name="image" value="{{ toy.image }}">
+      </div>
+      <div class="form-group">
+      <label for="category">Category Name</label>
+      <select class="form-control" id="category" name="category">
+        {{#each categories }}
+        <option value="{{ _id }}">{{ name }}</option>
+        {{/each}}
+      </select>
+    </div>
+      <button class="btn btn-primary" type="submit">Edit</button>
+   </form>
+</div>
